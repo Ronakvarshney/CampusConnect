@@ -1,2 +1,2 @@
 # CampusConnect
-A fullstack Project 
+A fullstack Project specializing in MernStack
