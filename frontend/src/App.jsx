@@ -1,50 +1,50 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'; // Import react-router-dom
-import { AppProvider } from "./context/AppContext"
-import StudentRegister from './components/auth/StudentRegister'; // Your StudentRegister component
-import Home from './components/home/Home';
-import { ToastContainer } from 'react-toastify'; // To show toast notifications
-import 'react-toastify/dist/ReactToastify.css'; // Import the toast styles
-import Login from './components/auth/Login';
-import TeacherRegister from './components/auth/TeacherRegoster';
-import TeacherClassroom from './components/classroom/TeacherClassroom';
-import StudentClassroom from './components/classroom/StudentClassroom';
-import Chats from './components/Chat/Chats';
-import PlacementCell from './components/plcementCell/PlacementCell';
-import AdminDashBoard from './components/admin/AdminDashBoard';
-import EventCreation from './components/events/EventCreation';
-import EventDetailed from './components/events/EventDetailed';
-import NoticeCreation from './components/notices/NoticeCreation';
-import Notices from './components/notices/Notices'
-import EventsPage from './components/events/EventPage';
-import CreateBlog from './components/blogs/CreateBlog';
-import BlogsPage from './components/blogs/Blogs';
-import HomePage from './components/HomePage';
-
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"; // Import react-router-dom
+import { AppProvider } from "./context/AppContext";
+import StudentRegister from "./components/auth/StudentRegister"; // Your StudentRegister component
+import Home from "./components/home/Home";
+import { ToastContainer } from "react-toastify"; // To show toast notifications
+import "react-toastify/dist/ReactToastify.css"; // Import the toast styles
+import Login from "./components/auth/Login";
+import TeacherRegister from "./components/auth/TeacherRegoster";
+import TeacherClassroom from "./components/classroom/TeacherClassroom";
+import StudentClassroom from "./components/classroom/StudentClassroom";
+import Chats from "./components/Chat/Chats";
+import PlacementCell from "./components/plcementCell/PlacementCell";
+import AdminDashBoard from "./components/admin/AdminDashBoard";
+import EventCreation from "./components/events/EventCreation";
+import EventDetailed from "./components/events/EventDetailed";
+import NoticeCreation from "./components/notices/NoticeCreation";
+import Notices from "./components/notices/Notices";
+import EventsPage from "./components/events/EventPage";
+import CreateBlog from "./components/blogs/CreateBlog";
+import BlogsPage from "./components/blogs/Blogs";
+import HomePage from "./components/HomePage";
+import AdminRegister from "./components/auth/AdminRegister";
 
 const App = () => {
   return (
-
-      <Router>
-          <Routes>
-            <Route path="/" element={<Home />} /> 
-            <Route path='/home' element={<HomePage/>}/>
-            <Route path="/register" element={<StudentRegister />} /> 
-            <Route path='/login' element={<Login/>} />
-            <Route path='/teacherRegister' element= {<TeacherRegister/>} />
-            <Route path='/teacherclassroom' element = {<TeacherClassroom />} />
-            <Route path='/studentclassroom' element ={<StudentClassroom/>} />
-            <Route path='/student/:id/chat' element={<Chats/>}/>
-            <Route path='/admin/:id' element={<AdminDashBoard/>}/>
-            <Route path='/events' element={<EventsPage/>}/>
-            <Route path='/eventscreation' element={<EventCreation/>}/>
-            <Route path='/events/:eventid' element={<EventDetailed/>}/>
-            <Route path="/createnotice" element={<NoticeCreation/>}/>
-            <Route path='/notices' element={<Notices/>}/>
-            <Route path='/blogcreation' element={<CreateBlog/>}/>
-            <Route path='/blogs' element={<BlogsPage/>}/>
-          </Routes>
-      </Router>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/dashboard" element={<Home />} />
+        <Route path="/register" element={<StudentRegister />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/teacherRegister" element={<TeacherRegister />} />
+        <Route path="/adminRegister" element={<AdminRegister />} />
+        <Route path="/teacherclassroom" element={<TeacherClassroom />} />
+        <Route path="/studentclassroom" element={<StudentClassroom />} />
+        <Route path="/student/:id/chat" element={<Chats />} />
+        <Route path="/admin/:id" element={<AdminDashBoard />} />
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/eventscreation" element={<EventCreation />} />
+        <Route path="/events/:eventid" element={<EventDetailed />} />
+        <Route path="/createnotice" element={<NoticeCreation />} />
+        <Route path="/notices" element={<Notices />} />
+        <Route path="/blogcreation" element={<CreateBlog />} />
+        <Route path="/blogs" element={<BlogsPage />} />
+      </Routes>
+    </Router>
   );
 };
 

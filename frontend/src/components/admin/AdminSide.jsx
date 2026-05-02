@@ -9,10 +9,9 @@ import {
 } from "react-icons/fa";
 
 import { useApp } from "../../context/AppContext";
-import { useState } from "react";
 
 const AdminSide = () => {
-  const { admin ,tabClick,setTabClick} = useApp();
+  const { tabClick,setTabClick} = useApp();
   
   
   const handleTabClick = (label) => {
@@ -36,8 +35,8 @@ const AdminSide = () => {
       <div className={`features-tabs ${tabClick === "Groups" ? "active-tab" : ""}`} onClick={() => handleTabClick("Groups")}>
         <FaLayerGroup /> Groups
       </div>
-      <div className={`features-tabs ${tabClick === "Dashboard" ? "active-tab" : ""}`} onClick={() => handleTabClick("Dashboard")}>
-        <FaTachometerAlt /> Dashboard
+      <div className={`features-tabs ${tabClick === "announcement" ? "active-tab" : ""}`} onClick={() => handleTabClick("announcement")}>
+        <FaTachometerAlt /> Annoucements
       </div>
     </div>
   );

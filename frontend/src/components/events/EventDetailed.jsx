@@ -72,7 +72,7 @@ const EventDetailed = () => {
     <div className="event-page">
       <div className="event-card">
         <img
-          src={event.image || "https://via.placeholder.com/600x300"}
+          src={event.imageUrl || "https://via.placeholder.com/600x300"}
           alt="Event"
           className="event-image"
         />

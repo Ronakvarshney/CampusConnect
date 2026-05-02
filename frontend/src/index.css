@@ -1,6 +1,13 @@
-body{
-    background-color: #0a1d3b;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0a1d3b;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
 }

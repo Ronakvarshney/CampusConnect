@@ -173,6 +173,7 @@ export const adminRegister = async (request, response) => {
 
 export const loginController = async (request, response) => {
   const { email, password, role } = request.body;
+  console.log(email , password ,role);
   try {
     let user;
 

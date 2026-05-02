@@ -1,121 +1,143 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { useApp } from '../../context/AppContext';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useApp } from "../../context/AppContext";
+import axios from "axios";
+import "./Login.css";
 
 const Login = () => {
-  const { admin,setAdmin, setIsLoggedIn } = useApp();
+  const { setAdmin } = useApp();
   const [credentials, setCredentials] = useState({
-    email: '',
-    password: '',
-    role: 'Student',
+    email: "",
+    password: "",
+    role: "Student",
   });
 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCredentials((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setCredentials((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleRoleSelect = (role) => {
+    setCredentials((prev) => ({ ...prev, role }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(credentials.role==="Admin"){
-      try {
-        const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
-        console.log("Login Response:", response);
-        
-        const { success, token, user } = response.data;
-  
-        if (success) {
-          
-          localStorage.setItem('token', token);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        credentials
+      );
+      const { success, token, user } = response.data;
+
+      if (success) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("isloggedIn", true);
+
+        if (credentials.role === "Admin") {
           setAdmin(user);
-          console.log(user,admin)
-          localStorage.setItem('isloggedIn', true);
-          toast.success('Login successful!');
+          toast.success("Admin Login successful!");
           setTimeout(() => navigate(`/admin/${user.id}`), 500);
         } else {
-          toast.error('Login failed. Please try again.');
+          localStorage.setItem("user", JSON.stringify(user));
+          toast.success("Login successful!");
+          setTimeout(() => navigate("/"), 500);
         }
-      } catch (error) {
-        console.error("Login Error:", error);
-        toast.error(error.response?.data?.message || 'Login failed. Please check your credentials.');
+      } else {
+        toast.error("Login failed. Please try again.");
       }
-    }
-    else{
-
-      try {
-        const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
-        console.log("Login Response:", response);
-        
-        const { success, token, user } = response.data;
-  
-        if (success) {
-          if (localStorage.getItem('user')) {
-            localStorage.removeItem('user');
-            localStorage.removeItem('token')
-          }
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(user));
-          localStorage.setItem('isloggedIn', true);
-          toast.success('Login successful!');
-          setTimeout(() => navigate('/'), 500);
-        } else {
-          toast.error('Login failed. Please try again.');
-        }
-      } catch (error) {
-        console.error("Login Error:", error);
-        toast.error(error.response?.data?.message || 'Login failed. Please check your credentials.');
-      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      toast.error(
+        error.response?.data?.message ||
+          "Login failed. Please check your credentials."
+      );
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={credentials.email}
-            onChange={handleChange}
-            required
-          />
+    <div className="login-page">
+      <div className="login-card">
+
+        {/* Brand */}
+        <div className="login-brand">
+          <span className="login-brand__mark">CC</span>
+          <span className="login-brand__name">CampusConnect</span>
         </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={credentials.password}
-            onChange={handleChange}
-            required
-          />
+
+        {/* Title */}
+        <h2 className="login-title">Welcome back</h2>
+        <p className="login-subtitle">Sign in to your account to continue</p>
+
+        <form onSubmit={handleSubmit} className="login-form">
+
+          {/* Email */}
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <div className="input-wrapper">
+              <span className="input-icon">✉</span>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                className="has-icon"
+                value={credentials.email}
+                onChange={handleChange}
+                required
+                placeholder="you@college.edu"
+              />
+            </div>
+          </div>
+
+          {/* Password */}
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <div className="input-wrapper">
+              <span className="input-icon">🔒</span>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                className="has-icon"
+                value={credentials.password}
+                onChange={handleChange}
+                required
+                placeholder="Enter your password"
+              />
+            </div>
+          </div>
+
+          {/* Role — pill selector */}
+          <div className="form-group">
+            <label>Sign in as</label>
+            <div className="role-group">
+              {["Student", "Teacher", "Admin"].map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  className={`role-pill ${credentials.role === r ? "active" : ""}`}
+                  onClick={() => handleRoleSelect(r)}
+                >
+                  {r === "Student" ? "🎓 " : r === "Teacher" ? "📖 " : "🛡 "}
+                  {r}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <button type="submit" className="login-button">
+            Sign In →
+          </button>
+        </form>
+
+        <div className="login-footer">
+          Don't have an account?
+          <Link to="/register">Register</Link>
         </div>
-        <div>
-          <label>Role</label>
-          <select
-            name="role"
-            value={credentials.role}
-            onChange={handleChange}
-            required
-          >
-            <option value="Student">Student</option>
-            <option value="Admin">Admin</option>
-            <option value="Teacher">Teacher</option>
-          </select>
-        </div>
-        <div>
-          <button type="submit">Login</button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };

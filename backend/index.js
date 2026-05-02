@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import http from "http";
 import { Server } from "socket.io";
+import dotenv from "dotenv";
 import OneToOneMessage from "./models/onetoonemessage.model.js";
 import MessageModel from "./models/message.model.js"; // your group message model
 import authRoutes from "./routes/auth.routes.js";
@@ -20,6 +21,7 @@ import EventRouter from "./routes/events.routes.js";
 import Blogrouter from "./routes/blog.route.js";
 
 const app = express();
+dotenv.config();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
@@ -27,9 +29,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-mongoose.connect("mongodb://localhost:27017/database");
+await mongoose.connect(process.env.MONGO_URL);
 
-app.use(cors());
+app.use(cors({
+  origin : "http://localhost:5173",
+  credentials : true
+}));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);

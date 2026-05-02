@@ -47,6 +47,7 @@ export const NoticeCreation = async(req , res)=>{
 export const FetchNotices = async(req , res)=>{
     try{
       const notices = await NoticesModel.find();
+      console.log("nc"  ,notices)
       if(!notices){
         return res.status(409).json({
             success : false ,
@@ -54,7 +55,7 @@ export const FetchNotices = async(req , res)=>{
         })
       };
 
-      return res.status(201).json({
+      return res.status(200).json({
         success : true ,
         message : "notices fetches successfully" ,
         notices

@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useApp } from '../../context/AppContext';
-import Navbar from '../Navbar';
-import Sidebar from '../Sidebar';
-import ProfileTab from '../tabs/ProfileTab';
-import './Home.css'
-import Classroomlist from '../classroom/Classroomlist';
-import PlacementCell from '../plcementCell/PlacementCell';
+import React, { useEffect, useState } from "react";
+import { useApp } from "../../context/AppContext";
+import Navbar from "../Navbar";
+import Sidebar from "../Sidebar";
+import ProfileTab from "../tabs/ProfileTab";
+import "./Home.css";
+import Classroomlist from "../classroom/Classroomlist";
+import PlacementCell from "../plcementCell/PlacementCell";
+import AnnouncementsPanel from "../tabs/AnnouncementsPanel";
 const Home = () => {
   const { user, tab, setUser, logout, setIsLoggedIn, isLoggedIn } = useApp();
-  const [localUser, setLocalUser] = useState(null); 
+  const [localUser, setLocalUser] = useState(null);
 
   useEffect(() => {
-    const state = localStorage.getItem('isloggedIn');
+    const state = localStorage.getItem("isloggedIn");
     const bool = state === "true";
     setIsLoggedIn(bool);
     console.log(isLoggedIn);
@@ -21,65 +22,61 @@ const Home = () => {
       setLocalUser(storedUser);
     }
 
-  
     if (storedUser && storedUser.id) {
       const fetchUserData = async () => {
         try {
-          const response = await fetch("http://localhost:5000/api/student/fetchDetails", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
+          const response = await fetch(
+            "http://localhost:5000/api/student/fetchDetails",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ _id: storedUser.id }),
             },
-            body: JSON.stringify({ _id: storedUser.id }),
-          });
+          );
 
           if (response.ok) {
             const data = await response.json();
-       
-            setUser(data.data); 
-            console.log('User data fetched successfully:', data);
+
+            setUser(data.data);
+            console.log("User data fetched successfully:", data);
           } else {
-            console.error('Failed to fetch user data');
+            console.error("Failed to fetch user data");
           }
         } catch (error) {
-          console.error('Error fetching user data:', error);
+          console.error("Error fetching user data:", error);
         }
       };
 
       fetchUserData();
     }
+  }, [setIsLoggedIn, isLoggedIn, setUser]);
 
-  }, [setIsLoggedIn, isLoggedIn, setUser]); 
-
-  useEffect(()=>{
-    console.log("User",user);
-  },[user]);
-
-  
+  useEffect(() => {
+    console.log("User", user);
+  }, [user]);
 
   return (
-    <div className='whole-container'>
+    <div className="whole-container">
       <Navbar />
 
-      {isLoggedIn ? (
+      {/* {isLoggedIn ? ( */}
 
-        <div>
-          <div className='homeContainer'>
+      <div>
+        <div className="homeContainer">
           <Sidebar />
-          {
-            (tab == "Profile") && <ProfileTab />
-            
-          }
-          {(tab == "Classrooms") && <Classroomlist/>}
-          { (tab == "Placement Cell" && <PlacementCell/>)}
-          </div>
-          
+          {tab == "Profile" && <ProfileTab />}
+          {tab == "Classrooms" && <Classroomlist />}
+          {tab == "Placement Cell" && <PlacementCell />}
+          {tab == "Announcements" && <AnnouncementsPanel />}
         </div>
-      ) : (
-        <div>
-          <h2>You are not logged in</h2>
-        </div>
-      )}
+      </div>
+      {/* ) : ( */}
+      <div>
+        <h2>You are not logged in</h2>
+      </div>
+      {/* )} */}
     </div>
   );
 };

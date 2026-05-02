@@ -1,8 +1,15 @@
 import express from "express";
-import { getAllStudentData, fetchAdmin } from "../controllers/admin.controller.js";
+import {
+  getAllStudentData,
+  getAllTeacherData,
+  getAllGroupsData,
+  fetchAdmin,
+} from "../controllers/admin.controller.js";
 const adminRoute = express.Router();
 
-adminRoute.get('/get-students',getAllStudentData);
-adminRoute.post("/fetchAdmin",fetchAdmin);
+adminRoute.get("/get-students", getAllStudentData);
+adminRoute.get("/get-teachers", getAllTeacherData);
+adminRoute.get("/get-groups", getAllGroupsData);
+adminRoute.post("/fetchAdmin", fetchAdmin);
 
 export default adminRoute;

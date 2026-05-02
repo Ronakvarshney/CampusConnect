@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import './stuAuth.css'
+import './register.css'
 
 const AdminRegister = () => {
    const [user, setUser] = useState({
@@ -56,6 +56,10 @@ const AdminRegister = () => {
             <label>Password</label>
             <input type="text" name="password" value={user.password} className="form-input" onChange={handleChange} required/>
           </div>
+        </div>
+
+        <div>
+          <button type='submit'>Register</button>
         </div>
       </form>
     </div>
